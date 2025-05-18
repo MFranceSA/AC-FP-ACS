@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="w3-container" id="hashing" style="margin-top:75px">
+  <h2 class="w3-xxlarge w3-text-blue"><b>Hashing</b></h2>
+
+  <h3 class="w3-text-teal"><b>Hash Functions (SHA-256, SHA-512, MD5, BLAKE2)</b></h3>
+  <!-- Hash function navigation -->
+  <div class="w3-bar w3-light-grey w3-margin-bottom">
+    <a href="{{ url_for('hashing', algorithm='SHA-256') }}" class="w3-bar-item w3-button {% if algorithm == 'SHA-256' %}w3-blue{% endif %}">SHA-256</a>
+    <a href="{{ url_for('hashing', algorithm='SHA-512') }}" class="w3-bar-item w3-button {% if algorithm == 'SHA-512' %}w3-blue{% endif %}">SHA-512</a>
+    <a href="{{ url_for('hashing', algorithm='MD5') }}" class="w3-bar-item w3-button {% if algorithm == 'MD5' %}w3-blue{% endif %}">MD5</a>
+    <a href="{{ url_for('hashing', algorithm='BLAKE2') }}" class="w3-bar-item w3-button {% if algorithm == 'BLAKE2' %}w3-blue{% endif %}">BLAKE2</a>
+  </div>
+  <div class="w3-margin-bottom">
+    <b>Selected Hash Function:</b> {{ algorithm }}
+  </div>
+
+  <form method="POST" action="{{ url_for('hashing', algorithm=algorithm) }}">
+    <label>Text to Hash:</label>
+    <input class="w3-input w3-border" type="text" name="plain_text">
+    <input type="hidden" name="action" value="hash_text">
+    <button class="w3-button w3-blue w3-margin-top" type="submit">Hash</button>
+  </form>
+  {% if hash_text_result %}
+    <div class="w3-panel w3-pale-green w3-border w3-margin-top">
+      <b>Hashed</b><br>
+      Input: <pre style="white-space:pre-wrap;word-break:break-all;">{{ hash_text_result.input }}</pre>
+      Output: <pre style="white-space:pre-wrap;word-break:break-all;">{{ hash_text_result.output }}</pre>
+    </div>
+  {% endif %}
+
+  <form method="POST" enctype="multipart/form-data" action="{{ url_for('hashing', algorithm=algorithm) }}" style="margin-top:20px;">
+    <label>File to Hash:</label>
+    <input class="w3-input w3-border" type="file" name="file">
+    <input type="hidden" name="action" value="hash_file">
+    <button class="w3-button w3-blue w3-margin-top" type="submit">Hash File</button>
+  </form>
+  {% if hash_file_result %}
+    <div class="w3-panel w3-pale-green w3-border w3-margin-top">
+      <b>File Hashed</b><br>
+      Input: <pre style="white-space:pre-wrap;word-break:break-all;">{{ hash_file_result.input }}</pre>
+      Output: <pre style="white-space:pre-wrap;word-break:break-all;">{{ hash_file_result.output }}</pre>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}
