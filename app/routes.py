@@ -59,6 +59,7 @@ def asymmetric():
     decrypt_rsa_result = None
     sign_ecc_result = None
     verify_ecc_result = None
+    algorithm = request.args.get("algorithm", "RSA")  # <-- Add this line
 
     if request.method == "POST":
         action = request.form.get("action")
@@ -82,6 +83,7 @@ def asymmetric():
 
     return render_template(
         "asymmetric.html",
+        algorithm=algorithm,  # <-- Pass it here
         encrypt_rsa_result=encrypt_rsa_result,
         decrypt_rsa_result=decrypt_rsa_result,
         sign_ecc_result=sign_ecc_result,

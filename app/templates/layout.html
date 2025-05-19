@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 <style>
 body,h1,h2,h3,h4,h5 {font-family: "Poppins", sans-serif}
 body {font-size:16px;}
@@ -14,11 +15,11 @@ body {font-size:16px;}
 <body>
 
 <nav class="w3-sidebar w3-blue w3-collapse w3-top w3-large w3-padding" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar"><br>
-  <a href="{{ url_for('home') }}" class="w3-bar-item w3-button w3-hover-white">Home</a>
-  <a href="{{ url_for('symmetric') }}" class="w3-bar-item w3-button w3-hover-white">Symmetric Encryption</a>
-  <a href="{{ url_for('asymmetric') }}" class="w3-bar-item w3-button w3-hover-white">Asymmetric Encryption</a>
-  <a href="{{ url_for('hashing') }}" class="w3-bar-item w3-button w3-hover-white">Hashing</a>
-  <a href="{{ url_for('algoinfo') }}" class="w3-bar-item w3-button w3-hover-white">Algorithm Info</a>
+  <a href="{{ url_for('home') }}" class="w3-bar-item w3-button {% if request.endpoint == 'home' %}active-nav{% endif %}">Home</a>
+  <a href="{{ url_for('symmetric') }}" class="w3-bar-item w3-button {% if request.endpoint == 'symmetric' %}active-nav{% endif %}">Symmetric Encryption</a>
+  <a href="{{ url_for('asymmetric') }}" class="w3-bar-item w3-button {% if request.endpoint == 'asymmetric' %}active-nav{% endif %}">Asymmetric Encryption</a>
+  <a href="{{ url_for('hashing') }}" class="w3-bar-item w3-button {% if request.endpoint == 'hashing' %}active-nav{% endif %}">Hashing</a>
+  <a href="{{ url_for('algoinfo') }}" class="w3-bar-item w3-button {% if request.endpoint == 'algoinfo' %}active-nav{% endif %}">Algorithm Info</a>
 </nav>
 
 <!-- Top menu on small screens -->
@@ -31,7 +32,8 @@ body {font-size:16px;}
 <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
 
 <div class="w3-main" style="margin-left:340px;margin-right:40px">
-    
+
+
   <!-- Flash messages -->
   {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
@@ -46,6 +48,8 @@ body {font-size:16px;}
   {% endwith %}
 
   {% block content %}{% endblock %}
+
+
 </div>
 </body>
 </html>

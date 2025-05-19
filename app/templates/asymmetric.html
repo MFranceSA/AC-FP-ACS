@@ -3,64 +3,85 @@
 
 <div class="w3-container" id="asymmetric" style="margin-top:75px">
   <h2 class="w3-xxlarge w3-text-blue"><b>Asymmetric Encryption</b></h2>
-  <form method="POST" action="{{ url_for('asymmetric') }}">
-    <label>Text to Encrypt (RSA):</label>
-    <input class="w3-input w3-border" type="text" name="plain_text">
-    <input type="hidden" name="action" value="encrypt_rsa">
-    <button class="w3-button w3-blue w3-margin-top" type="submit">Encrypt (RSA)</button>
-  </form>
-  {% if encrypt_rsa_result %}
-    <div class="w3-panel w3-pale-green w3-border w3-margin-top">
-      <b>Encrypted (RSA)</b><br>
-      Input: <pre style="white-space:pre-wrap;word-break:break-all;">{{ encrypt_rsa_result.input }}</pre>
-      Output:
-      <textarea readonly style="width:100%;min-height:60px;">{{ encrypt_rsa_result.output }}</textarea>
+
+  <!-- Minimalistic Algorithm navbar -->
+  <div class="algo-navbar">
+    <a href="{{ url_for('asymmetric', algorithm='RSA') }}" class="algo-btn {% if algorithm == 'RSA' %}algo-btn-active{% endif %}">RSA</a>
+    <a href="{{ url_for('asymmetric', algorithm='ECC') }}" class="algo-btn {% if algorithm == 'ECC' %}algo-btn-active{% endif %}">ECC</a>
+  </div>
+  <div class="w3-margin-bottom">
+    <b>Selected Algorithm:</b> {{ algorithm }}
+  </div>
+
+  {% if algorithm == 'RSA' %}
+    <div class="modern-card">
+      <h3 class="w3-text-teal"><b>RSA Encryption/Decryption</b></h3>
+      <form method="POST" action="{{ url_for('asymmetric', algorithm='RSA') }}">
+        <label>Text to Encrypt (RSA):</label>
+        <input class="w3-input w3-border" type="text" name="plain_text" style="border-radius:8px;">
+        <input type="hidden" name="action" value="encrypt_rsa">
+        <button class="w3-button w3-blue w3-margin-top" type="submit" style="border-radius:8px;">Encrypt (RSA)</button>
+      </form>
+      {% if encrypt_rsa_result %}
+        <div class="w3-panel w3-pale-green w3-border w3-margin-top">
+          <b>Encrypted (RSA)</b><br>
+          Input: <pre style="white-space:pre-wrap;word-break:break-all;">{{ encrypt_rsa_result.input }}</pre>
+          Output:
+          <textarea readonly style="width:100%;min-height:60px;">{{ encrypt_rsa_result.output }}</textarea>
+        </div>
+      {% endif %}
+
+      <hr class="card-divider">
+
+      <form method="POST" action="{{ url_for('asymmetric', algorithm='RSA') }}">
+        <label>Ciphertext (hex, RSA):</label>
+        <input class="w3-input w3-border" type="text" name="cipher_text" style="border-radius:8px;">
+        <input type="hidden" name="action" value="decrypt_rsa">
+        <button class="w3-button w3-blue w3-margin-top" type="submit" style="border-radius:8px;">Decrypt (RSA)</button>
+      </form>
+      {% if decrypt_rsa_result %}
+        <div class="w3-panel w3-pale-green w3-border w3-margin-top">
+          <b>Decrypted (RSA)</b><br>
+          Input: <pre style="white-space:pre-wrap;word-break:break-all;">{{ decrypt_rsa_result.input }}</pre>
+          Output:
+          <textarea readonly style="width:100%;min-height:60px;">{{ decrypt_rsa_result.output }}</textarea>
+        </div>
+      {% endif %}
     </div>
-  {% endif %}
+  {% elif algorithm == 'ECC' %}
+    <div class="modern-card">
+      <h3 class="w3-text-teal"><b>ECC Digital Signature</b></h3>
+      <form method="POST" action="{{ url_for('asymmetric', algorithm='ECC') }}">
+        <label>Text to Sign (ECC):</label>
+        <input class="w3-input w3-border" type="text" name="plain_text" style="border-radius:8px;">
+        <input type="hidden" name="action" value="sign_ecc">
+        <button class="w3-button w3-blue w3-margin-top" type="submit" style="border-radius:8px;">Sign (ECC)</button>
+      </form>
+      {% if sign_ecc_result %}
+        <div class="w3-panel w3-pale-green w3-border w3-margin-top">
+          <b>Signature (ECC)</b><br>
+          Input: <pre style="white-space:pre-wrap;word-break:break-all;">{{ sign_ecc_result.input }}</pre>
+          Output: <textarea readonly style="width:100%;min-height:60px;">{{ sign_ecc_result.output }}</textarea>
+        </div>
+      {% endif %}
 
-  <form method="POST" action="{{ url_for('asymmetric') }}" style="margin-top:20px;">
-    <label>Ciphertext (hex, RSA):</label>
-    <input class="w3-input w3-border" type="text" name="cipher_text">
-    <input type="hidden" name="action" value="decrypt_rsa">
-    <button class="w3-button w3-blue w3-margin-top" type="submit">Decrypt (RSA)</button>
-  </form>
-  {% if decrypt_rsa_result %}
-    <div class="w3-panel w3-pale-green w3-border w3-margin-top">
-      <b>Decrypted (RSA)</b><br>
+      <hr class="card-divider">
 
-      Input: <pre style="white-space:pre-wrap;word-break:break-all;">{{ decrypt_rsa_result.input }}</pre>
-      Output:
-      <textarea readonly style="width:100%;min-height:60px;">{{ decrypt_rsa_result.output }}</textarea>
-    </div>
-  {% endif %}
-
-  <form method="POST" action="{{ url_for('asymmetric') }}" style="margin-top:20px;">
-    <label>Text to Sign (ECC):</label>
-    <input class="w3-input w3-border" type="text" name="plain_text">
-    <input type="hidden" name="action" value="sign_ecc">
-    <button class="w3-button w3-blue w3-margin-top" type="submit">Sign (ECC)</button>
-  </form>
-  {% if sign_ecc_result %}
-    <div class="w3-panel w3-pale-green w3-border w3-margin-top">
-      <b>Signature (ECC)</b><br>
-      Input: <pre style="white-space:pre-wrap;word-break:break-all;">{{ sign_ecc_result.input }}</pre>
-      Output: <textarea readonly style="width:100%;min-height:60px;">{{ sign_ecc_result.output }}</textarea>
-    </div>
-  {% endif %}
-
-  <form method="POST" action="{{ url_for('asymmetric') }}" style="margin-top:20px;">
-    <label>Text to Verify (ECC):</label>
-    <input class="w3-input w3-border" type="text" name="plain_text">
-    <label>Signature (hex):</label>
-    <input class="w3-input w3-border" type="text" name="signature">
-    <input type="hidden" name="action" value="verify_ecc">
-    <button class="w3-button w3-blue w3-margin-top" type="submit">Verify (ECC)</button>
-  </form>
-  {% if verify_ecc_result %}
-    <div class="w3-panel w3-pale-green w3-border w3-margin-top">
-      <b>Verify (ECC)</b><br>
-      Input: <pre style="white-space:pre-wrap;word-break:break-all;">{{ verify_ecc_result.input }}</pre>
-      Output: <textarea readonly style="width:100%;min-height:60px;">{{ verify_ecc_result.output }}</textarea>
+      <form method="POST" action="{{ url_for('asymmetric', algorithm='ECC') }}">
+        <label>Text to Verify (ECC):</label>
+        <input class="w3-input w3-border" type="text" name="plain_text" style="border-radius:8px;">
+        <label>Signature (hex):</label>
+        <input class="w3-input w3-border" type="text" name="signature" style="border-radius:8px;">
+        <input type="hidden" name="action" value="verify_ecc">
+        <button class="w3-button w3-blue w3-margin-top" type="submit" style="border-radius:8px;">Verify (ECC)</button>
+      </form>
+      {% if verify_ecc_result %}
+        <div class="w3-panel w3-pale-green w3-border w3-margin-top">
+          <b>Verify (ECC)</b><br>
+          Input: <pre style="white-space:pre-wrap;word-break:break-all;">{{ verify_ecc_result.input }}</pre>
+          Output: <textarea readonly style="width:100%;min-height:60px;">{{ verify_ecc_result.output }}</textarea>
+        </div>
+      {% endif %}
     </div>
   {% endif %}
 </div>
