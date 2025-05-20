@@ -7,7 +7,7 @@ def compute_hash(data, algo="SHA-256"):
         return hashlib.sha512(data.encode()).hexdigest()
     elif algo == "MD5":
         return hashlib.md5(data.encode()).hexdigest()
-    elif algo == "BLAKE2":
+    elif algo == "SHA-1":
         return hashlib.sha1(data.encode()).hexdigest()
     else:
         return "Unsupported hashing algorithm"
