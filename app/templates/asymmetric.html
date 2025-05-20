@@ -9,42 +9,59 @@
     <a href="{{ url_for('asymmetric', algorithm='RSA') }}" class="algo-btn {% if algorithm == 'RSA' %}algo-btn-active{% endif %}">RSA</a>
     <a href="{{ url_for('asymmetric', algorithm='ECC') }}" class="algo-btn {% if algorithm == 'ECC' %}algo-btn-active{% endif %}">ECC</a>
   </div>
-  <div class="w3-margin-bottom">
-    <b>Selected Algorithm:</b> {{ algorithm }}
-  </div>
 
   {% if algorithm == 'RSA' %}
     <div class="modern-card">
-      <h3 class="w3-text-teal"><b>RSA Encryption/Decryption</b></h3>
+      <h3 class="w3-text-teal"><b>Encryption</b></h3>
       <form method="POST" action="{{ url_for('asymmetric', algorithm='RSA') }}">
         <label>Text to Encrypt (RSA):</label>
         <input class="w3-input w3-border" type="text" name="plain_text" style="border-radius:8px;">
         <input type="hidden" name="action" value="encrypt_rsa">
         <button class="w3-button w3-blue w3-margin-top" type="submit" style="border-radius:8px;">Encrypt (RSA)</button>
       </form>
+      {% if encrypt_result %}
+        <div class="result-panel">
+          <span class="result-panel-label">Encrypted Output</span>
+          <div class="result-output" id="encrypt-output">{{ encrypt_result.output }}</div>
+          <button class="copy-btn" onclick="copyToClipboard('encrypt-output', this)">Copy</button>
+        </div>
+      {% endif %}
       {% if encrypt_rsa_result %}
-        <div class="w3-panel w3-pale-green w3-border w3-margin-top">
-          <b>Encrypted (RSA)</b><br>
-          Input: <pre style="white-space:pre-wrap;word-break:break-all;">{{ encrypt_rsa_result.input }}</pre>
-          Output:
-          <textarea readonly style="width:100%;min-height:60px;">{{ encrypt_rsa_result.output }}</textarea>
+        <div class="result-panel">
+          <span class="result-panel-label">Encrypted Output (RSA)</span>
+          <div class="result-output" id="encrypt-rsa-output">{{ encrypt_rsa_result.output }}</div>
+          <button class="copy-btn" onclick="copyToClipboard('encrypt-rsa-output', this)">Copy</button>
         </div>
       {% endif %}
 
       <hr class="card-divider">
-
+        <h3 class="w3-text-teal"><b>Decryption</b></h3>
       <form method="POST" action="{{ url_for('asymmetric', algorithm='RSA') }}">
         <label>Ciphertext (hex, RSA):</label>
         <input class="w3-input w3-border" type="text" name="cipher_text" style="border-radius:8px;">
         <input type="hidden" name="action" value="decrypt_rsa">
         <button class="w3-button w3-blue w3-margin-top" type="submit" style="border-radius:8px;">Decrypt (RSA)</button>
       </form>
+      {% if decrypt_result %}
+        <div class="result-panel">
+          <span class="result-panel-label">Decrypted Output</span>
+          <div class="result-output" id="decrypt-output">{{ decrypt_result.output }}</div>
+          <button class="copy-btn" onclick="copyToClipboard('decrypt-output', this)">Copy</button>
+        </div>
+      {% endif %}
       {% if decrypt_rsa_result %}
-        <div class="w3-panel w3-pale-green w3-border w3-margin-top">
-          <b>Decrypted (RSA)</b><br>
-          Input: <pre style="white-space:pre-wrap;word-break:break-all;">{{ decrypt_rsa_result.input }}</pre>
-          Output:
-          <textarea readonly style="width:100%;min-height:60px;">{{ decrypt_rsa_result.output }}</textarea>
+        <div class="result-panel">
+          <span class="result-panel-label">Decrypted Output (RSA)</span>
+          <div class="result-output" id="decrypt-rsa-output">{{ decrypt_rsa_result.output }}</div>
+          <button class="copy-btn" onclick="copyToClipboard('decrypt-rsa-output', this)">Copy</button>
+        </div>
+      {% endif %}
+
+      <!-- RSA Decryption Error -->
+      {% if decrypt_rsa_error %}
+        <div class="error-panel">
+          <span class="error-icon">&#9888;</span>
+          {{ decrypt_rsa_error }}
         </div>
       {% endif %}
     </div>
@@ -58,10 +75,10 @@
         <button class="w3-button w3-blue w3-margin-top" type="submit" style="border-radius:8px;">Sign (ECC)</button>
       </form>
       {% if sign_ecc_result %}
-        <div class="w3-panel w3-pale-green w3-border w3-margin-top">
-          <b>Signature (ECC)</b><br>
-          Input: <pre style="white-space:pre-wrap;word-break:break-all;">{{ sign_ecc_result.input }}</pre>
-          Output: <textarea readonly style="width:100%;min-height:60px;">{{ sign_ecc_result.output }}</textarea>
+        <div class="result-panel">
+          <span class="result-panel-label">Signature (ECC)</span>
+          <div class="result-output" id="sign-ecc-output">{{ sign_ecc_result.output }}</div>
+          <button class="copy-btn" onclick="copyToClipboard('sign-ecc-output', this)">Copy</button>
         </div>
       {% endif %}
 
@@ -76,10 +93,18 @@
         <button class="w3-button w3-blue w3-margin-top" type="submit" style="border-radius:8px;">Verify (ECC)</button>
       </form>
       {% if verify_ecc_result %}
-        <div class="w3-panel w3-pale-green w3-border w3-margin-top">
-          <b>Verify (ECC)</b><br>
-          Input: <pre style="white-space:pre-wrap;word-break:break-all;">{{ verify_ecc_result.input }}</pre>
-          Output: <textarea readonly style="width:100%;min-height:60px;">{{ verify_ecc_result.output }}</textarea>
+        <div class="result-panel">
+          <span class="result-panel-label">Verification Result</span>
+          <div class="result-output" id="verify-ecc-output">{{ verify_ecc_result.output }}</div>
+          <button class="copy-btn" onclick="copyToClipboard('verify-ecc-output', this)">Copy</button>
+        </div>
+      {% endif %}
+
+      <!-- ECC Verification Error -->
+      {% if verify_ecc_error %}
+        <div class="error-panel">
+          <span class="error-icon">&#9888;</span>
+          {{ verify_ecc_error }}
         </div>
       {% endif %}
     </div>

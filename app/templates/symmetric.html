@@ -9,83 +9,138 @@
     <a href="{{ url_for('symmetric', algorithm='DES') }}" class="algo-btn {% if algorithm == 'DES' %}algo-btn-active{% endif %}">DES</a>
     <a href="{{ url_for('symmetric', algorithm='3DES') }}" class="algo-btn {% if algorithm == '3DES' %}algo-btn-active{% endif %}">3DES</a>
   </div>
-  <div class="w3-margin-bottom">
-    <b>Selected Algorithm:</b> {{ algorithm }}
-  </div>
 
   <!-- TEXT BOX -->
   <div class="modern-card">
-    <h3 class="w3-text-teal"><b>Text Encryption/Decryption ({{ algorithm }})</b></h3>
-    <form method="POST" action="{{ url_for('symmetric', algorithm=algorithm) }}">
-      <label>Text to Encrypt:</label>
-      <input class="w3-input w3-border" type="text" name="plain_text" style="border-radius:8px;">
-      <label>Key:</label>
-      <input class="w3-input w3-border" type="text" name="key" style="border-radius:8px;">
-      <input type="hidden" name="action" value="encrypt">
-      <button class="w3-button w3-blue w3-margin-top" type="submit" style="border-radius:8px;">Encrypt</button>
-    </form>
-    {% if encrypt_result %}
-      <div class="w3-panel w3-pale-green w3-border w3-margin-top">
-        <b>Encrypted</b><br>
-        Input: {{ encrypt_result.input }}<br>
-        Output: {{ encrypt_result.output }}<br>
+    <h3 class="w3-text-teal"><b>Text</b></h3>
+    <!-- Toggle nav for Encrypt/Decrypt -->
+    <div class="algo-navbar" style="margin-bottom:18px;">
+      <a href="{{ url_for('symmetric', algorithm=algorithm, text_mode='encrypt') }}" class="algo-btn {% if request.args.get('text_mode', 'encrypt') == 'encrypt' %}algo-btn-active{% endif %}">Encrypt</a>
+      <a href="{{ url_for('symmetric', algorithm=algorithm, text_mode='decrypt') }}" class="algo-btn {% if request.args.get('text_mode', 'encrypt') == 'decrypt' %}algo-btn-active{% endif %}">Decrypt</a>
+    </div>
+    
+    {% if algorithm == '3DES' %}
+      <div class="w3-text-grey" style="margin-bottom:18px;font-size:1.05em;">
+        <b>Note:</b> 3DES keys must be at least 16 characters, not all repeated, and should be unique enough to avoid "degenerate" errors.
       </div>
     {% endif %}
-
-    <hr class="card-divider">
-
-    <form method="POST" action="{{ url_for('symmetric', algorithm=algorithm) }}">
-      <label>Ciphertext:</label>
-      <input class="w3-input w3-border" type="text" name="cipher_text" style="border-radius:8px;">
-      <label>Key:</label>
-      <input class="w3-input w3-border" type="text" name="key" style="border-radius:8px;">
-      <input type="hidden" name="action" value="decrypt">
-      <button class="w3-button w3-blue w3-margin-top" type="submit" style="border-radius:8px;">Decrypt</button>
-    </form>
-    {% if decrypt_result %}
-      <div class="w3-panel w3-pale-green w3-border w3-margin-top">
-        <b>Decrypted</b><br>
-        Input: {{ decrypt_result.input }}<br>
-        Output: {{ decrypt_result.output }}<br>
+    {% if text_error %}
+      <div class="error-panel">
+        <span class="error-icon">&#9888;</span>
+        {{ text_error }}
       </div>
+    {% endif %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="error-panel">
+            <span class="error-icon">&#9888;</span>
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    {% set text_mode = request.args.get('text_mode', 'encrypt') %}
+    {% if text_mode == 'encrypt' %}
+      <form method="POST" action="{{ url_for('symmetric', algorithm=algorithm, text_mode='encrypt') }}">
+        <label>Text to Encrypt:</label>
+        <input class="w3-input w3-border" type="text" name="plain_text" style="border-radius:8px;">
+        <label>Key:</label>
+        <input class="w3-input w3-border" type="text" name="key" style="border-radius:8px;">
+        <input type="hidden" name="action" value="encrypt">
+        <button class="w3-button w3-blue w3-margin-top" type="submit" style="border-radius:8px;">Encrypt</button>
+      </form>
+      {% if encrypt_result %}
+        <div class="result-panel">
+          <span class="result-panel-label">Encrypted Output</span>
+          <div class="result-output" id="encrypt-output">{{ encrypt_result.output }}</div>
+          <button class="copy-btn" onclick="copyToClipboard('encrypt-output', this)">Copy</button>
+        </div>
+      {% endif %}
+    {% else %}
+      <form method="POST" action="{{ url_for('symmetric', algorithm=algorithm, text_mode='decrypt') }}">
+        <label>Ciphertext:</label>
+        <input class="w3-input w3-border" type="text" name="cipher_text" style="border-radius:8px;">
+        <label>Key:</label>
+        <input class="w3-input w3-border" type="text" name="key" style="border-radius:8px;">
+        <input type="hidden" name="action" value="decrypt">
+        <button class="w3-button w3-blue w3-margin-top" type="submit" style="border-radius:8px;">Decrypt</button>
+      </form>
+      {% if decrypt_result %}
+        <div class="result-panel">
+          <span class="result-panel-label">Decrypted Output</span>
+          <div class="result-output" id="decrypt-output">{{ decrypt_result.output }}</div>
+          <button class="copy-btn" onclick="copyToClipboard('decrypt-output', this)">Copy</button>
+        </div>
+      {% endif %}
     {% endif %}
   </div>
 
   <!-- FILE BOX -->
   <div class="modern-card">
-    <h3 class="w3-text-teal"><b>File Encryption/Decryption ({{ algorithm }})</b></h3>
-    <form method="POST" enctype="multipart/form-data" action="{{ url_for('symmetric', algorithm=algorithm) }}">
-      <label>File to Encrypt:</label>
-      <input class="w3-input w3-border" type="file" name="file" style="border-radius:8px;">
-      <label>Key:</label>
-      <input class="w3-input w3-border" type="text" name="key" style="border-radius:8px;">
-      <input type="hidden" name="action" value="encrypt_file">
-      <button class="w3-button w3-blue w3-margin-top" type="submit" style="border-radius:8px;">Encrypt File</button>
-    </form>
-    {% if encrypt_file_result %}
-      <div class="w3-panel w3-pale-green w3-border w3-margin-top">
-        <b>File Encrypted</b><br>
-        Input: {{ encrypt_file_result.input }}<br>
-        Output: <pre style="white-space:pre-wrap;word-break:break-all;">{{ encrypt_file_result.output }}</pre>
+    <h3 class="w3-text-teal"><b>File</b></h3>
+    <!-- Toggle nav for File Encrypt/Decrypt -->
+    <div class="algo-navbar" style="margin-bottom:18px;">
+      <a href="{{ url_for('symmetric', algorithm=algorithm, file_mode='encrypt', text_mode=request.args.get('text_mode', 'encrypt')) }}" class="algo-btn {% if request.args.get('file_mode', 'encrypt') == 'encrypt' %}algo-btn-active{% endif %}">Encrypt File</a>
+      <a href="{{ url_for('symmetric', algorithm=algorithm, file_mode='decrypt', text_mode=request.args.get('text_mode', 'encrypt')) }}" class="algo-btn {% if request.args.get('file_mode', 'encrypt') == 'decrypt' %}algo-btn-active{% endif %}">Decrypt File</a>
+    </div>
+    
+    {% if algorithm == '3DES' %}
+      <div class="w3-text-grey" style="margin-bottom:18px;font-size:1.05em;">
+        <b>Note:</b> 3DES keys must be at least 16 characters, not all repeated, and should be unique enough to avoid "degenerate" errors.
       </div>
     {% endif %}
-
-    <hr class="card-divider">
-
-    <form method="POST" enctype="multipart/form-data" action="{{ url_for('symmetric', algorithm=algorithm) }}">
-      <label>File to Decrypt:</label>
-      <input class="w3-input w3-border" type="file" name="file" style="border-radius:8px;">
-      <label>Key:</label>
-      <input class="w3-input w3-border" type="text" name="key" style="border-radius:8px;">
-      <input type="hidden" name="action" value="decrypt_file">
-      <button class="w3-button w3-blue w3-margin-top" type="submit" style="border-radius:8px;">Decrypt File</button>
-    </form>
-    {% if decrypt_file_result %}
-      <div class="w3-panel w3-pale-green w3-border w3-margin-top">
-        <b>File Decrypted</b><br>
-        Input: {{ decrypt_file_result.input }}<br>
-        Output: <pre style="white-space:pre-wrap;word-break:break-all;">{{ decrypt_file_result.output }}</pre>
+    {% if file_error %}
+      <div class="error-panel">
+        <span class="error-icon">&#9888;</span>
+        {{ file_error }}
       </div>
+    {% endif %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="error-panel">
+            <span class="error-icon">&#9888;</span>
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    {% set file_mode = request.args.get('file_mode', 'encrypt') %}
+    {% if file_mode == 'encrypt' %}
+      <form method="POST" enctype="multipart/form-data" action="{{ url_for('symmetric', algorithm=algorithm, file_mode='encrypt', text_mode=request.args.get('text_mode', 'encrypt')) }}">
+        <label>File to Encrypt:</label>
+        <input class="w3-input w3-border" type="file" name="file" style="border-radius:8px;">
+        <label>Key:</label>
+        <input class="w3-input w3-border" type="text" name="key" style="border-radius:8px;">
+        <input type="hidden" name="action" value="encrypt_file">
+        <button class="w3-button w3-blue w3-margin-top" type="submit" style="border-radius:8px;">Encrypt File</button>
+      </form>
+      {% if encrypt_file_result %}
+        <div class="w3-panel w3-pale-green w3-border w3-margin-top">
+          <b>File Encrypted</b><br>
+          Input: {{ encrypt_file_result.input }}<br>
+          Output: <pre style="white-space:pre-wrap;word-break:break-all;">{{ encrypt_file_result.output }}</pre>
+        </div>
+      {% endif %}
+    {% else %}
+      <form method="POST" enctype="multipart/form-data" action="{{ url_for('symmetric', algorithm=algorithm, file_mode='decrypt', text_mode=request.args.get('text_mode', 'encrypt')) }}">
+        <label>File to Decrypt:</label>
+        <input class="w3-input w3-border" type="file" name="file" style="border-radius:8px;">
+        <label>Key:</label>
+        <input class="w3-input w3-border" type="text" name="key" style="border-radius:8px;">
+        <input type="hidden" name="action" value="decrypt_file">
+        <button class="w3-button w3-blue w3-margin-top" type="submit" style="border-radius:8px;">Decrypt File</button>
+      </form>
+      {% if decrypt_file_result %}
+        <div class="w3-panel w3-pale-green w3-border w3-margin-top">
+          <b>File Decrypted</b><br>
+          Input: {{ decrypt_file_result.input }}<br>
+          Output: <pre style="white-space:pre-wrap;word-break:break-all;">{{ decrypt_file_result.output }}</pre>
+        </div>
+      {% endif %}
     {% endif %}
   </div>
 </div>

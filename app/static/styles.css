@@ -22,12 +22,15 @@ body {font-size:16px;}
 
 /* Modern card style for forms/boxes */
 .modern-card {
-  background: #fff;
+  background: #f8fafd;
   border-radius: 20px;
   box-shadow: 0 4px 24px rgba(25, 118, 210, 0.07), 0 1.5px 4px rgba(0,0,0,0.03);
   padding: 32px 24px;
   margin-bottom: 32px;
-  border: none;
+  border-left: 6px solid #1976d2; /* blue accent bar */
+  border-top: 1.5px solid #e3e8ee;
+  border-right: 1.5px solid #e3e8ee;
+  border-bottom: 1.5px solid #e3e8ee;
   transition: box-shadow 0.2s;
 }
 .modern-card h3 {
@@ -42,6 +45,13 @@ hr.card-divider {
   border-radius: 12px;
   background: #e8f5e9;
   border: 1.5px solid #b2dfdb;
+}
+
+.w3-panel.w3-pale-red.w3-border {
+  background: #ffebee;
+  border: 1.5px solid #e57373;
+  color: #b71c1c;
+  border-radius: 10px;
 }
 
 /* Modern minimalistic algorithm navbar */
@@ -84,5 +94,101 @@ hr.card-divider {
   background: #1976d2;
   color: #fff !important;
   box-shadow: 0 2px 8px rgba(25, 118, 210, 0.10);
+}
+
+/* Minimalist collapsible info panel */
+.algo-info-panel {
+  margin-top: 12px;
+  padding: 16px 18px;
+  background: #f8fafd;
+  border-radius: 12px;
+  border: 1.5px solid #e3e8ee;
+  color: #222;
+  font-size: 1.07em;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.04);
+}
+
+/* Collapsible info panel button (for algoinfo.html only) */
+.info-btn {
+  background: #f4f6fb;
+  border: none;
+  color: #1976d2;
+  font-weight: 600;
+  font-size: 1.07em;
+  padding: 12px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-bottom: 0;
+  width: 100%;
+  text-align: left;
+  transition: background 0.15s;
+}
+.info-btn:hover, .info-btn:focus {
+  background: #e3e8ee;
+  color: #1565c0;
+}
+
+/* Modern minimalistic error panel */
+.error-panel {
+  background: #ffeaea;
+  color: #d32f2f;
+  border: 1.5px solid #ffcdd2;
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin-bottom: 18px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.error-panel .error-icon {
+  font-size: 1.3em;
+  margin-right: 6px;
+  color: #d32f2f;
+}
+
+/* Modern output/result box */
+.result-panel {
+  background: #f4f8fd;
+  border: 1.5px solid #b2dfdb;
+  border-radius: 16px;
+  padding: 18px 20px 16px 20px;
+  margin-top: 22px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.06);
+  position: relative;
+}
+.result-panel-label {
+  color: #1976d2;
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: block;
+}
+.copy-btn {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 18px;
+  font-size: 0.98em;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background 0.18s;
+  float: right;
+}
+.copy-btn:hover {
+  background: #1251a3;
+}
+.result-output {
+  background: #e3e8ee;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-family: 'Fira Mono', 'Consolas', monospace;
+  font-size: 1em;
+  word-break: break-all;
+  margin-bottom: 0;
+  margin-top: 6px;
+  min-height: 36px;
+  white-space: pre-wrap;
 }
 

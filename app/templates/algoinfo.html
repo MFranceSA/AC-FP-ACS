@@ -1,10 +1,109 @@
 {% extends "layout.html" %}
 {% block content %}
 
-  <!-- Algorithm Information Section -->
-  <div class="w3-container" id="algoinfo" style="margin-top:75px">
-    <h2 class="w3-xxlarge w3-text-blue"><b>Algorithm Information</b></h2>
-    <p>Click on an algorithm to learn more about its history, process, and use cases.</p>
-    <!-- You can use collapsible panels or links to show info for each algorithm -->
+<div class="w3-container" id="algoinfo" style="margin-top:75px">
+  <h2 class="w3-xxlarge w3-text-blue"><b>Algorithm Information</b></h2>
+  <p>Click on an algorithm to learn more about its history, process, and use cases.</p>
+
+  <div class="modern-card" style="margin-bottom:24px;">
+    <button onclick="togglePanel('aes-info')" class="info-btn"><b>AES (Advanced Encryption Standard)</b></button>
+    <div id="aes-info" class="algo-info-panel" style="display:none;">
+      <b>Type:</b> Symmetric block cipher<br>
+      <b>Key Sizes:</b> 128, 192, or 256 bits<br>
+      <b>Summary:</b> AES is the most widely used symmetric encryption algorithm today. It is fast, secure, and standardized by NIST.<br>
+      <b>Use Cases:</b> File encryption, secure messaging, VPNs, disk encryption.
+    </div>
   </div>
+
+  <div class="modern-card" style="margin-bottom:24px;">
+    <button onclick="togglePanel('des-info')" class="info-btn"><b>DES (Data Encryption Standard)</b></button>
+    <div id="des-info" class="algo-info-panel" style="display:none;">
+      <b>Type:</b> Symmetric block cipher<br>
+      <b>Key Size:</b> 56 bits<br>
+      <b>Summary:</b> DES was the first widely adopted symmetric encryption standard. It is now considered insecure due to its short key length.<br>
+      <b>Use Cases:</b> Historical/legacy systems, educational purposes.
+    </div>
+  </div>
+
+  <div class="modern-card" style="margin-bottom:24px;">
+    <button onclick="togglePanel('3des-info')" class="info-btn"><b>3DES (Triple DES)</b></button>
+    <div id="3des-info" class="algo-info-panel" style="display:none;">
+      <b>Type:</b> Symmetric block cipher<br>
+      <b>Key Sizes:</b> 112 or 168 bits<br>
+      <b>Summary:</b> 3DES applies DES three times to each data block. It is more secure than DES but slower and now being phased out.<br>
+      <b>Use Cases:</b> Legacy systems, payment industry (historically).
+    </div>
+  </div>
+
+  <div class="modern-card" style="margin-bottom:24px;">
+    <button onclick="togglePanel('rsa-info')" class="info-btn"><b>RSA (Rivest–Shamir–Adleman)</b></button>
+    <div id="rsa-info" class="algo-info-panel" style="display:none;">
+      <b>Type:</b> Asymmetric (public-key) encryption<br>
+      <b>Key Sizes:</b> 1024, 2048, 3072, 4096 bits (2048+ recommended)<br>
+      <b>Summary:</b> RSA is the most widely used public-key algorithm for secure data transmission and digital signatures.<br>
+      <b>Use Cases:</b> Secure email, SSL/TLS, digital signatures, key exchange.
+    </div>
+  </div>
+
+  <div class="modern-card" style="margin-bottom:24px;">
+    <button onclick="togglePanel('ecc-info')" class="info-btn"><b>ECC (Elliptic Curve Cryptography)</b></button>
+    <div id="ecc-info" class="algo-info-panel" style="display:none;">
+      <b>Type:</b> Asymmetric (public-key) encryption<br>
+      <b>Key Sizes:</b> 160-521 bits (much shorter than RSA for same security)<br>
+      <b>Summary:</b> ECC provides strong security with smaller keys, making it efficient for mobile and IoT.<br>
+      <b>Use Cases:</b> Digital signatures, secure messaging, cryptocurrencies.
+    </div>
+  </div>
+
+  <div class="modern-card" style="margin-bottom:24px;">
+    <button onclick="togglePanel('sha256-info')" class="info-btn"><b>SHA-256 (Secure Hash Algorithm 256)</b></button>
+    <div id="sha256-info" class="algo-info-panel" style="display:none;">
+      <b>Type:</b> Cryptographic hash function<br>
+      <b>Output:</b> 256 bits<br>
+      <b>Summary:</b> SHA-256 is widely used for data integrity, digital signatures, and blockchain.<br>
+      <b>Use Cases:</b> Password hashing, file integrity, blockchain.
+    </div>
+  </div>
+
+  <div class="modern-card" style="margin-bottom:24px;">
+    <button onclick="togglePanel('sha512-info')" class="info-btn"><b>SHA-512 (Secure Hash Algorithm 512)</b></button>
+    <div id="sha512-info" class="algo-info-panel" style="display:none;">
+      <b>Type:</b> Cryptographic hash function<br>
+      <b>Output:</b> 512 bits<br>
+      <b>Summary:</b> SHA-512 is similar to SHA-256 but produces a longer hash, offering higher security for some applications.<br>
+      <b>Use Cases:</b> File integrity, digital signatures, high-security applications.
+    </div>
+  </div>
+
+  <div class="modern-card" style="margin-bottom:24px;">
+    <button onclick="togglePanel('md5-info')" class="info-btn"><b>MD5 (Message Digest 5)</b></button>
+    <div id="md5-info" class="algo-info-panel" style="display:none;">
+      <b>Type:</b> Cryptographic hash function<br>
+      <b>Output:</b> 128 bits<br>
+      <b>Summary:</b> MD5 is fast but no longer considered secure against collisions. Use only for non-security-critical checks.<br>
+      <b>Use Cases:</b> Checksums, legacy systems, file verification (non-secure).
+    </div>
+  </div>
+
+  <div class="modern-card" style="margin-bottom:24px;">
+    <button onclick="togglePanel('blake2-info')" class="info-btn"><b>BLAKE2</b></button>
+    <div id="blake2-info" class="algo-info-panel" style="display:none;">
+      <b>Type:</b> Cryptographic hash function<br>
+      <b>Output:</b> Variable (up to 512 bits)<br>
+      <b>Summary:</b> BLAKE2 is a modern, fast, and secure hash function, designed as an alternative to MD5 and SHA.<br>
+      <b>Use Cases:</b> Password hashing, file integrity, digital signatures.
+    </div>
+  </div>
+</div>
+
+<script>
+function togglePanel(id) {
+  var panel = document.getElementById(id);
+  if (panel.style.display === "none" || panel.style.display === "") {
+    panel.style.display = "block";
+  } else {
+    panel.style.display = "none";
+  }
+}
+</script>
 {% endblock %}

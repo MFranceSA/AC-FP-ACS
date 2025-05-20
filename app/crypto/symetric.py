@@ -3,12 +3,22 @@ from Crypto.Util.Padding import pad, unpad
 import base64
 
 def _get_key(key, algo):
+    key_bytes = key.encode()
+    if algo == "3DES":
+        # Pad or trim to 24 bytes
+        while len(key_bytes) < 24:
+            key_bytes += b'0'
+        key_bytes = key_bytes[:24]
+        # Make sure it's a valid 3DES key
+        try:
+            key_bytes = DES3.adjust_key_parity(key_bytes)
+        except ValueError:
+            raise ValueError("Invalid 3DES key. Please use a different key.")
+        return key_bytes
     if algo == "AES":
         return key.encode("utf-8").ljust(16, b"0")[:16]
     elif algo == "DES":
         return key.encode("utf-8").ljust(8, b"0")[:8]
-    elif algo == "3DES":
-        return key.encode("utf-8").ljust(24, b"0")[:24]
     else:
         raise ValueError("Unsupported algorithm")
 
