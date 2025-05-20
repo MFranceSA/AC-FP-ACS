@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, send_file, redirect, url_for,
 import os
 from werkzeug.utils import secure_filename
 from .crypto import symetric, hashing, crypto_asymmetric
+from .crypto import hashing as hashing_module
 
 app = Flask(__name__)
 app.secret_key = "supersecretkey"
@@ -91,7 +92,7 @@ def asymmetric():
     )
 
 @app.route("/hashing", methods=["GET", "POST"])
-def hashing():
+def hashing_view():
     hash_text_result = None
     hash_file_result = None
     algorithm = request.args.get("algorithm", "SHA-256")  # Default to SHA-256
@@ -211,7 +212,7 @@ def hash_text():
     algo = request.form.get("algorithm")
     result = hashing.compute_hash(text, algo)
     flash(f"Hash: {result}", "info")
-    return redirect(url_for("hashing"))
+    return redirect(url_for("hashing_view"))
 
 @app.route("/hash_file", methods=["POST"])
 def hash_file():
@@ -220,4 +221,4 @@ def hash_file():
     data = file.read()
     result = hashing.compute_hash(data.decode(errors="ignore"), algo)
     flash(f"File Hash: {result}", "info")
-    return redirect(url_for("hashing"))
+    return redirect(url_for("hashing_view"))

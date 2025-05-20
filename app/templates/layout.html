@@ -18,7 +18,7 @@ body {font-size:16px;}
   <a href="{{ url_for('home') }}" class="w3-bar-item w3-button {% if request.endpoint == 'home' %}active-nav{% endif %}">Home</a>
   <a href="{{ url_for('symmetric') }}" class="w3-bar-item w3-button {% if request.endpoint == 'symmetric' %}active-nav{% endif %}">Symmetric Encryption</a>
   <a href="{{ url_for('asymmetric') }}" class="w3-bar-item w3-button {% if request.endpoint == 'asymmetric' %}active-nav{% endif %}">Asymmetric Encryption</a>
-  <a href="{{ url_for('hashing') }}" class="w3-bar-item w3-button {% if request.endpoint == 'hashing' %}active-nav{% endif %}">Hashing</a>
+  <a href="{{ url_for('hashing_view') }}" class="w3-bar-item w3-button {% if request.endpoint == 'hashing_view' %}active-nav{% endif %}">Hashing</a>
   <a href="{{ url_for('algoinfo') }}" class="w3-bar-item w3-button {% if request.endpoint == 'algoinfo' %}active-nav{% endif %}">Algorithm Info</a>
 </nav>
 

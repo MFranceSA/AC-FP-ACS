@@ -5,10 +5,10 @@
   <h2 class="w3-xxlarge w3-text-blue"><b>Hashing</b></h2>
 
   <div class="algo-navbar">
-    <a href="{{ url_for('hashing', algorithm='SHA-256') }}" class="algo-btn {% if algorithm == 'SHA-256' %}algo-btn-active{% endif %}">SHA-256</a>
-    <a href="{{ url_for('hashing', algorithm='SHA-512') }}" class="algo-btn {% if algorithm == 'SHA-512' %}algo-btn-active{% endif %}">SHA-512</a>
-    <a href="{{ url_for('hashing', algorithm='MD5') }}" class="algo-btn {% if algorithm == 'MD5' %}algo-btn-active{% endif %}">MD5</a>
-    <a href="{{ url_for('hashing', algorithm='BLAKE2') }}" class="algo-btn {% if algorithm == 'BLAKE2' %}algo-btn-active{% endif %}">BLAKE2</a>
+    <a href="{{ url_for('hashing_view', algorithm='SHA-256') }}" class="algo-btn {% if algorithm == 'SHA-256' %}algo-btn-active{% endif %}">SHA-256</a>
+    <a href="{{ url_for('hashing_view', algorithm='SHA-512') }}" class="algo-btn {% if algorithm == 'SHA-512' %}algo-btn-active{% endif %}">SHA-512</a>
+    <a href="{{ url_for('hashing_view', algorithm='MD5') }}" class="algo-btn {% if algorithm == 'MD5' %}algo-btn-active{% endif %}">MD5</a>
+    <a href="{{ url_for('hashing_view', algorithm='BLAKE2') }}" class="algo-btn {% if algorithm == 'BLAKE2' %}algo-btn-active{% endif %}">BLAKE2</a>
   </div>
   <div class="w3-margin-bottom">
     <b>Selected Hash Function:</b> {{ algorithm }}
@@ -16,7 +16,7 @@
 
   <div class="modern-card">
     <h3 class="w3-text-teal"><b>Text Hashing ({{ algorithm }})</b></h3>
-    <form method="POST" action="{{ url_for('hashing', algorithm=algorithm) }}">
+    <form method="POST" action="{{ url_for('hashing_view', algorithm=algorithm) }}">
       <label>Text to Hash:</label>
       <input class="w3-input w3-border" type="text" name="plain_text" style="border-radius:8px;">
       <input type="hidden" name="action" value="hash_text">
@@ -33,7 +33,7 @@
 
   <div class="modern-card">
     <h3 class="w3-text-teal"><b>File Hashing ({{ algorithm }})</b></h3>
-    <form method="POST" enctype="multipart/form-data" action="{{ url_for('hashing', algorithm=algorithm) }}">
+    <form method="POST" enctype="multipart/form-data" action="{{ url_for('hashing_view', algorithm=algorithm) }}">
       <label>File to Hash:</label>
       <input class="w3-input w3-border" type="file" name="file" style="border-radius:8px;">
       <input type="hidden" name="action" value="hash_file">
