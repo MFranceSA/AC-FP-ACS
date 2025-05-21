@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request, send_file, redirect, url_for, flash, get_flashed_messages
 import os
 from werkzeug.utils import secure_filename
-from .crypto import symetric, hashing, crypto_asymmetric
-from .crypto import hashing as hashing_module
+from app.crypto import symetric, hashing, crypto_asymmetric
+from app.crypto import hashing as hashing_module
 import io
 
 app = Flask(__name__)
