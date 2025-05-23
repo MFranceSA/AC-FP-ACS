@@ -16,3 +16,4 @@
 
 ## 📖 Introduction
 > This application demonstrates cryptographic principles through a user-friendly interface supporting text and file encryption/decryption and hashing. It showcases the importance of data confidentiality, integrity, and authenticity in modern computing.
+> [README.md](https://github.com/user-attachments/files/20409195/README.md)
