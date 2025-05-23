@@ -59,7 +59,7 @@
 
 >***Libraries used:*** Crypto Cipher import DES3, Crypto.Util.Padding import pad, unpad and base64.
 
-?***Integrated:***3DES will be offered as another symmetric encryption option for both text and files, enhancing security over standard DES.
+>***Integrated:***3DES will be offered as another symmetric encryption option for both text and files, enhancing security over standard DES.
 
 ***Name and Type:*** RSA - Rivest-Shamir-Adleman (Asymmetric Encryption)
 
