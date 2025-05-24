@@ -1,0 +1,4 @@
+1. Flask
+2. cryptography
+3. Werkzeug
+4. pycryptodome
