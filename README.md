@@ -146,3 +146,73 @@
 ‌>[11] Contributors to. 2010. Wikipedia article covering the BLAKE series of cryptographic hash functions. Wikipedia.org. Retrieved May 22, 2025 from https://en.wikipedia.org/wiki/BLAKE_(hash_function)
 
 >[12] Sooryan. 2025. A quick summary of blake2, a cryptographic hash function. Gist. Retrieved May 22, 2025 from https://gist.github.com/sooryan/8d1b2c19bf0b971c11366b0680908d4b
+
+## Sample Runs/Output
+
+**Advanced Encryption Standard (AES)**
+*Encryption:*
+Input Text: HELLO WORLD!!!
+Shift Keys: 5
+Output: eCFRDcF+2sRaFemmKAsipQ==:bk2wkKD0Su/UwB7apJzN2w==
+
+*Decryption:*
+Input Text: eCFRDcF+2sRaFemmKAsipQ==:bk2wkKD0Su/UwB7apJzN2w==
+Shift Keys: 5
+Output: HELLO WORLD!!!
+
+**Data Encryption Standard (DES)**
+*Encryption:*
+Input Text: TEXTDES
+Shift Keys: 3
+Output: dByUdjaqNdQ=:zJCq0mwFhgk=
+
+*Decryption:*
+Input Text: dByUdjaqNdQ=:zJCq0mwFhgk=
+Shift Keys: 3
+Output: TEXTDES
+
+**Triple Data Encryption Standard (3DES)**
+*Encryption:*
+Input Text: symmetric
+Shift Keys: 1234567890asdfgh
+Output: symmetric
+
+*Decryption:*
+Input Text: WE9gmNCgMy4=:o0nIVuNwl+s1i2XSrkwwyQ==
+Shift Keys: 3
+Output: TEXTDES
+
+**Rivest-Shamir-Adleman (RS)**
+* *Encryption:*
+Input Text: TEXTRSA
+Output: 167e089e3a1e1b26e216ee1ff06132d9dd2140fa9313548ce1542707a2ba208d48233cf8401d7eef0ffc1677e994d5769d97b2a4d55a2ee03a7af9838f111f5c6b1ad71bb9b03936612a6e8475d921092c0e52d2400fe46047310b0dcc72ad7744b964cdf38fcd1bb29c5f124600b33e4aa6f407061827915c69d4207d2c39b177db3d6b9f32a0d058d7fc043b679d6146e50c278c934ba27dc8cd66b2bc2e696ae8160f1b0d5e246fdb20e4ae1b1eafba51e72ed6a91251a27c1ecf354ff1e90f5da586c94647c29a123951339aba96d726b2b75efe4fd94fad0ba7333b3c604ff45d0f850838048502978413fd74c405a572c0964156a5d91e83b916ce172c
+
+*Decryption:*
+Input Text: 167e089e3a1e1b26e216ee1ff06132d9dd2140fa9313548ce1542707a2ba208d48233cf8401d7eef0ffc1677e994d5769d97b2a4d55a2ee03a7af9838f111f5c6b1ad71bb9b03936612a6e8475d921092c0e52d2400fe46047310b0dcc72ad7744b964cdf38fcd1bb29c5f124600b33e4aa6f407061827915c69d4207d2c39b177db3d6b9f32a0d058d7fc043b679d6146e50c278c934ba27dc8cd66b2bc2e696ae8160f1b0d5e246fdb20e4ae1b1eafba51e72ed6a91251a27c1ecf354ff1e90f5da586c94647c29a123951339aba96d726b2b75efe4fd94fad0ba7333b3c604ff45d0f850838048502978413fd74c405a572c0964156a5d91e83b916ce172c
+Output: TEXTRSA
+
+**ECC**
+*Encryption:*
+Input Text: textECC
+Output: 304602210098217e18c27d94402a7340c46a656f742e8bbe574758e9b55d82e7d52c716b4f022100d7a272c0b1cf8132fda8af7b281d19bd7bd470e4d4fb84efd9d5e02db8647165
+
+*Decryption:*
+Input Text: 304602210098217e18c27d94402a7340c46a656f742e8bbe574758e9b55d82e7d52c716b4f022100d7a272c0b1cf8132fda8af7b281d19bd7bd470e4d4fb84efd9d5e02db8647165
+Signature (hex): 12345678
+Output: False
+
+**SHA-256**
+Input Text: This is my secret message!
+Output: f97ae7bac5ddb1bd63e89cd26fb1d21b041af4d460b0704463e8ff60b8e2b417
+
+**SHA-512**
+Input Text: symmetricSHA
+Output: be3cbe8320bb08436349ed671b4d0d571b3279a263f9b2e1041da87a96cb7d0af4fb0abfdcd4c10daa2748f00f4ebf051c43c1e7863e8b7773f34675d590bb6e
+
+**MD5**
+Input Text: TextMD5
+Output: e6d6c92ec62c21f86a00dc942e297ab6
+
+**BLAKE2**
+Input Text: HELLO WORLD
+Output: 48913ef2d70ef23b0702e9136fb5524aa4558b27f2042e03d097c1f521c7ad4c87e51a19fc94406a8f0b2e81affd28cc8e7aa173e2abade2766ae9c62417d0d0
